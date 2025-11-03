@@ -1,0 +1,8 @@
+**/.next/
+**/dist/
+**/build/
+**/.turbo/
+**/.cache/
+**/coverage/
+**/node_modules/
+.env*
