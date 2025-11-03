@@ -7,6 +7,7 @@ interface User {
   name: string;
   email: string;
   role: string;
+  kycStatus?: string;
 }
 
 interface AuthContextType {
@@ -15,6 +16,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   signup: (data: any) => Promise<void>;
   logout: () => Promise<void>;
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -24,21 +26,32 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(false);
 
   const login = async (email: string, password: string) => {
-    // TODO: Implement login logic
+    // TODO: Implement actual API call
     console.log('Login:', email);
+    // Simulate successful login for demo
+    setUser({ _id: '1', name: 'مستخدم تجريبي', email, role: 'investor', kycStatus: 'verified' });
   };
 
   const signup = async (data: any) => {
-    // TODO: Implement signup logic
+    // TODO: Implement actual API call
     console.log('Signup:', data);
+    // Simulate successful signup for demo
+    setUser({ _id: '1', name: data.name, email: data.email, role: data.role || 'investor', kycStatus: 'pending' });
   };
 
   const logout = async () => {
     setUser(null);
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+  };
+
+  const refreshUser = async () => {
+    // TODO: Implement actual API call
+    console.log('Refresh user');
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, signup, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, signup, logout, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,4 +1,5 @@
 import './globals.css';
+import { Providers } from './providers';
 
 export const metadata = {
   title: 'منصة الاستثمار العقاري الذكية - فلسطين',
@@ -12,7 +13,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ar" dir="rtl">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
