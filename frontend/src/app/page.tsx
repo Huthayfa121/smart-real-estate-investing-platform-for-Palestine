@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { Building2, MessageSquare, BookOpen, Shield, LogOut, User } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import Logo from '@/components/Logo';
+import { MapPin, TrendingUp, User as UserIcon, Target, BarChart } from 'lucide-react';
 
 export default function HomePage() {
   const { user, logout } = useAuth();
@@ -12,218 +13,292 @@ export default function HomePage() {
   };
 
   return (
-    <main className="min-h-screen">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white">
-        <div className="container-custom section">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-12">
-            <Link href="/" className="flex items-center gap-2 text-white hover:text-primary-100">
-              <Building2 className="w-10 h-10" />
-              <span className="heading-ar text-2xl font-bold">منصة الاستثمار العقاري</span>
-            </Link>
+    <main className="min-h-screen bg-pi-cream">
+      {/* Header */}
+      <header className="bg-white border-b-2 border-pi-beige">
+        <div className="container-custom py-4">
+          <div className="flex items-center justify-between">
+            <Logo size="md" />
             <div className="flex items-center gap-4">
               {user ? (
                 <>
-                  <Link href="/dashboard" className="flex items-center gap-2 text-white hover:text-primary-100">
-                    <User className="w-5 h-5" />
-                    <span className="body-ar">{user.name}</span>
+                  <Link href="/dashboard" className="body-ar text-brown hover:text-gold transition-colors">
+                    {user.name}
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="flex items-center gap-2 text-white hover:text-red-300"
+                    className="btn btn-outline btn-sm"
                   >
-                    <LogOut className="w-5 h-5" />
-                    <span className="body-ar hidden sm:inline">تسجيل الخروج</span>
+                    تسجيل الخروج
                   </button>
                 </>
               ) : (
                 <>
-                  <Link href="/login" className="body-ar text-white hover:text-primary-100">
-                    تسجيل الدخول
+                  <Link href="/login" className="body-ar text-brown hover:text-gold transition-colors">
+                    Log In
                   </Link>
-                  <Link href="/signup" className="btn btn-primary bg-white text-primary-700 hover:bg-primary-50">
-                    سجل الآن
+                  <Link href="/signup" className="btn btn-primary btn-sm">
+                    Sign Up
                   </Link>
                 </>
               )}
             </div>
           </div>
+        </div>
+      </header>
 
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="heading-ar text-4xl md:text-5xl lg:text-6xl mb-6">
-              منصة الاستثمار العقاري الذكية
-            </h1>
-            <p className="body-ar text-xl md:text-2xl mb-8 text-primary-50">
-              استثمر بثقة في العقارات الفلسطينية مع توصيات مخصصة ومستشارين معتمدين
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              {user ? (
-                <>
-                  <Link href="/dashboard" className="btn btn-primary bg-white text-primary-700 hover:bg-primary-50">
-                    لوحة التحكم
-                  </Link>
-                  <Link href="/library" className="btn btn-outline border-white text-white hover:bg-white hover:text-primary-700">
-                    تصفح المكتبة
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <Link href="/signup" className="btn btn-primary bg-white text-primary-700 hover:bg-primary-50">
-                    ابدأ الآن مجاناً
-                  </Link>
-                  <Link href="/login" className="btn btn-outline border-white text-white hover:bg-white hover:text-primary-700">
-                    تسجيل الدخول
-                  </Link>
-                </>
-              )}
+      {/* Hero Section */}
+      <section className="section bg-gradient-to-br from-pi-light-cream to-pi-cream">
+        <div className="container-custom text-center">
+          <h1 className="font-heading text-5xl md:text-7xl mb-6 text-dark-brown">
+            START YOUR<br />
+            INVESTMENT JOURNEY
+          </h1>
+          <p className="body-ar text-xl text-brown mb-8 max-w-2xl mx-auto">
+            استثمر بثقة في العقارات الفلسطينية مع توصيات مخصصة ومستشارين معتمدين
+          </p>
+          <Link href={user ? "/dashboard" : "/signup"} className="btn btn-primary text-lg">
+            EXPLORE NOW
+          </Link>
+        </div>
+      </section>
+
+      {/* Featured Cities */}
+      <section className="section bg-white">
+        <div className="container-custom">
+          <h2 className="font-heading text-4xl text-center mb-12 text-dark-brown">
+            FEATURED CITIES
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                name: 'NABLUS',
+                nameAr: 'نابلس',
+                avgPrice: '$850',
+                returnRate: '7%',
+                vacancy: '3%',
+                icon: '🏛️'
+              },
+              {
+                name: 'RAMALLAH',
+                nameAr: 'رام الله',
+                avgPrice: '$850',
+                returnRate: '7%',
+                vacancy: '3%',
+                icon: '🏙️'
+              },
+              {
+                name: 'GAZA',
+                nameAr: 'غزة',
+                avgPrice: '$8530',
+                returnRate: '3%',
+                vacancy: '3%',
+                icon: '🏘️'
+              },
+            ].map((city, index) => (
+              <div
+                key={index}
+                className="card text-center group hover:scale-105 transition-all"
+                style={{ background: 'linear-gradient(135deg, #FAF8F3 0%, #F5EFE7 100%)' }}
+              >
+                <div className="text-5xl mb-4">{city.icon}</div>
+                <h3 className="font-heading text-2xl mb-2 text-dark-brown">{city.name}</h3>
+                <p className="body-ar text-sm text-brown mb-4">{city.nameAr}</p>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="body-ar text-brown">Avg Price/Meter</span>
+                    <span className="font-bold text-gold">{city.avgPrice}</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="body-ar text-brown">Potential Value</span>
+                    <span className="font-bold text-gold">{city.returnRate}</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="body-ar text-brown">Vacancy Rate</span>
+                    <span className="font-bold text-gold">{city.vacancy}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How We Help You */}
+      <section className="section bg-pi-cream">
+        <div className="container-custom">
+          <h2 className="font-heading text-4xl text-center mb-12 text-dark-brown">
+            HOW WE HELP YOU?
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center group">
+              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform">
+                <UserIcon className="w-10 h-10 text-brown" />
+              </div>
+              <h3 className="font-heading text-xl mb-2 text-dark-brown">1. Create Your Profile</h3>
+              <p className="body-ar text-sm text-brown">
+                أنشئ ملفك الاستثماري المخصص بناءً على أهدافك وميزانيتك
+              </p>
             </div>
+
+            <div className="text-center group">
+              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform">
+                <MapPin className="w-10 h-10 text-brown" />
+              </div>
+              <h3 className="font-heading text-xl mb-2 text-dark-brown">2. Choose Your City</h3>
+              <p className="body-ar text-sm text-brown">
+                اختر المدينة المفضلة واستكشف الفرص الاستثمارية المتاحة
+              </p>
+            </div>
+
+            <div className="text-center group">
+              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform">
+                <BarChart className="w-10 h-10 text-brown" />
+              </div>
+              <h3 className="font-heading text-xl mb-2 text-dark-brown">3. Get Your Recommendation</h3>
+              <p className="body-ar text-sm text-brown">
+                احصل على توصيات استثمارية ذكية مبنية على تحليل السوق
+              </p>
+            </div>
+          </div>
+
+          <div className="text-center mt-12">
+            <Link href={user ? "/onboarding" : "/signup"} className="btn btn-primary text-lg">
+              ابدأ الآن
+            </Link>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="section bg-gray-50">
+      <section className="section bg-white">
         <div className="container-custom">
-          <h2 className="heading-ar text-3xl md:text-4xl text-center mb-12 text-gray-900">
-            لماذا تختار منصتنا؟
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <FeatureCard
-              icon={<Building2 className="w-10 h-10 text-primary-600" />}
-              title="توصيات مخصصة"
-              description="احصل على فرص استثمارية مناسبة لدخلك وأهدافك"
-            />
-            <FeatureCard
-              icon={<MessageSquare className="w-10 h-10 text-primary-600" />}
-              title="مستشارون معتمدون"
-              description="تواصل مباشرة مع خبراء قانونيين وماليين"
-            />
-            <FeatureCard
-              icon={<BookOpen className="w-10 h-10 text-primary-600" />}
-              title="مكتبة تعليمية"
-              description="تعلم أساسيات الاستثمار العقاري والقوانين"
-            />
-            <FeatureCard
-              icon={<Shield className="w-10 h-10 text-primary-600" />}
-              title="أمان وخصوصية"
-              description="بياناتك محمية بأعلى معايير الأمان"
-            />
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="font-heading text-4xl mb-6 text-dark-brown">
+                Investment Simulator
+              </h2>
+              <p className="body-ar text-lg text-brown mb-6 leading-relaxed">
+                احسب العوائد المتوقعة لاستثمارك باستخدام أداتنا الذكية. أدخل رأس المال ونوع العقار والمدينة 
+                لتحصل على تحليل مفصل للعائد المتوقع وفترة الاسترداد ومستوى المخاطر.
+              </p>
+              <Link href={user ? "/recommendations" : "/signup"} className="btn btn-primary">
+                جرب الحاسبة الآن
+              </Link>
+            </div>
+            <div className="bg-pi-light-cream rounded-2xl p-8 border-2 border-pi-beige">
+              <div className="space-y-4">
+                <div className="bg-white rounded-lg p-4 border border-pi-beige">
+                  <span className="text-sm text-brown">Capital Investment</span>
+                </div>
+                <div className="bg-white rounded-lg p-4 border border-pi-beige">
+                  <span className="text-sm text-brown">Property Type</span>
+                </div>
+                <div className="bg-white rounded-lg p-4 border border-pi-beige">
+                  <span className="text-sm text-brown">City</span>
+                </div>
+                <button className="w-full btn btn-primary">
+                  Calculate Return
+                </button>
+              </div>
+              <div className="mt-6 grid grid-cols-2 gap-4">
+                <div className="bg-green-50 rounded-lg p-4 border border-green-200">
+                  <div className="text-2xl font-bold text-green-600">+12.5%</div>
+                  <div className="text-xs text-green-700">Expected Annual Return</div>
+                </div>
+                <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                  <div className="text-2xl font-bold text-blue-600">8 Years</div>
+                  <div className="text-xs text-blue-700">Payback Period</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Categories Section */}
-      <section className="section">
+      {/* Knowledge Hub */}
+      <section className="section bg-pi-cream">
         <div className="container-custom">
-          <h2 className="heading-ar text-3xl md:text-4xl text-center mb-12 text-gray-900">
-            مكتبة المحتوى التعليمي
+          <h2 className="font-heading text-4xl text-center mb-12 text-dark-brown">
+            Knowledge Hub
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <CategoryCard
-              title="نصائح للمبتدئين"
-              description="ابدأ رحلتك الاستثمارية بأساس قوي"
-              link="/library/beginner"
-              color="bg-blue-500"
-            />
-            <CategoryCard
-              title="استثمار الأراضي"
-              description="دليلك لاستثمار الأراضي وتخزينها"
-              link="/library/land"
-              color="bg-green-500"
-            />
-            <CategoryCard
-              title="إدارة العقارات"
-              description="إدارة استثماراتك بكفاءة واحترافية"
-              link="/library/management"
-              color="bg-yellow-500"
-            />
-            <CategoryCard
-              title="القوانين والتراخيص"
-              description="افهم الجوانب القانونية للعقارات"
-              link="/library/law"
-              color="bg-purple-500"
-            />
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { title: "Beginner's Guide", desc: 'دليل شامل للمبتدئين في الاستثمار العقاري', link: '/library' },
+              { title: "Investing in Land", desc: 'كل ما تحتاج معرفته عن استثمار الأراضي', link: '/library' },
+              { title: "Rental Management", desc: 'إدارة العقارات المؤجرة بكفاءة', link: '/library' },
+              { title: "Sohens Carn/Ivest", desc: 'استراتيجيات الاستثمار المتقدمة', link: '/library' },
+              { title: "Property Management", desc: 'أفضل ممارسات إدارة الممتلكات', link: '/library' },
+              { title: "Laws & Licenses", desc: 'القوانين والتراخيص العقارية', link: '/library' },
+            ].map((item, index) => (
+              <div key={index} className="card bg-white">
+                <h3 className="font-heading text-lg mb-2 text-dark-brown">{item.title}</h3>
+                <p className="body-ar text-sm text-brown mb-4">{item.desc}</p>
+                <Link href={item.link} className="inline-block">
+                  <button className="btn btn-primary btn-sm">
+                    Read More
+                  </button>
+                </Link>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="section bg-primary-600 text-white">
-        <div className="container-custom text-center">
-          <h2 className="heading-ar text-3xl md:text-4xl mb-6">
-            جاهز لبدء رحلتك الاستثمارية؟
-          </h2>
-          <p className="body-ar text-xl mb-8 text-primary-50">
-            انضم الآن وابدأ في اتخاذ قرارات استثمارية واثقة ومدروسة
-          </p>
-          <Link href="/signup" className="btn btn-primary bg-white text-primary-700 hover:bg-primary-50">
-            سجل مجاناً الآن
-          </Link>
-        </div>
-      </section>
+      {!user && (
+        <section className="section bg-gradient-to-br from-brown to-gold text-white">
+          <div className="container-custom text-center">
+            <h2 className="font-heading text-4xl mb-6">
+              Ready to Start Investing?
+            </h2>
+            <p className="body-ar text-xl mb-8 opacity-90">
+              انضم الآن واحصل على توصيات استثمارية مخصصة
+            </p>
+            <Link href="/signup" className="btn bg-white text-brown hover:bg-pi-light-cream">
+              Create Free Account
+            </Link>
+          </div>
+        </section>
+      )}
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-gray-300 py-12">
+      <footer className="bg-dark-brown text-pi-beige py-12">
         <div className="container-custom">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
-              <h3 className="heading-ar text-xl mb-4 text-white">منصة الاستثمار العقاري</h3>
-              <p className="body-ar text-sm">
-                نساعد المستثمرين الفلسطينيين على اتخاذ قرارات عقارية واثقة ومدروسة
+              <Logo size="sm" className="mb-4" />
+              <p className="body-ar text-sm opacity-80">
+                منصة ذكية للاستثمار العقاري في فلسطين
               </p>
             </div>
             <div>
-              <h4 className="heading-ar text-lg mb-4 text-white">روابط سريعة</h4>
+              <h4 className="font-heading text-lg mb-4 text-gold">Quick Links</h4>
               <ul className="space-y-2 text-sm">
-                <li><Link href="/about" className="hover:text-white transition-smooth">من نحن</Link></li>
-                <li><Link href="/library" className="hover:text-white transition-smooth">المكتبة</Link></li>
-                <li><Link href="/advisors" className="hover:text-white transition-smooth">المستشارون</Link></li>
-                <li><Link href="/contact" className="hover:text-white transition-smooth">اتصل بنا</Link></li>
+                <li><Link href="/about" className="hover:text-gold transition-colors">من نحن</Link></li>
+                <li><Link href="/library" className="hover:text-gold transition-colors">المكتبة</Link></li>
+                <li><Link href="/advisors" className="hover:text-gold transition-colors">المستشارون</Link></li>
+                <li><Link href="/contact" className="hover:text-gold transition-colors">اتصل بنا</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="heading-ar text-lg mb-4 text-white">قانوني</h4>
+              <h4 className="font-heading text-lg mb-4 text-gold">Privacy Policy</h4>
               <ul className="space-y-2 text-sm">
-                <li><Link href="/privacy" className="hover:text-white transition-smooth">سياسة الخصوصية</Link></li>
-                <li><Link href="/terms" className="hover:text-white transition-smooth">شروط الاستخدام</Link></li>
-                <li><Link href="/disclaimer" className="hover:text-white transition-smooth">إخلاء المسؤولية</Link></li>
+                <li><Link href="/privacy" className="hover:text-gold transition-colors">سياسة الخصوصية</Link></li>
+                <li><Link href="/terms" className="hover:text-gold transition-colors">شروط الاستخدام</Link></li>
+                <li><Link href="/disclaimer" className="hover:text-gold transition-colors">Disclaimer</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="heading-ar text-lg mb-4 text-white">تواصل معنا</h4>
-              <p className="body-ar text-sm">
-                البريد الإلكتروني: info@realestate-palestine.com
+              <h4 className="font-heading text-lg mb-4 text-gold">Terms Element</h4>
+              <p className="text-sm opacity-80">
+                © 2024 Palestine Invest<br />
+                All rights reserved.
               </p>
             </div>
-          </div>
-          <div className="border-t border-gray-700 mt-8 pt-8 text-center text-sm">
-            <p>© 2024 منصة الاستثمار العقاري الذكية - فلسطين. جميع الحقوق محفوظة.</p>
           </div>
         </div>
       </footer>
     </main>
-  );
-}
-
-function FeatureCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
-  return (
-    <div className="card text-center">
-      <div className="flex justify-center mb-4">{icon}</div>
-      <h3 className="heading-ar text-xl mb-2 text-gray-900">{title}</h3>
-      <p className="body-ar text-gray-600">{description}</p>
-    </div>
-  );
-}
-
-function CategoryCard({ title, description, link, color }: { title: string; description: string; link: string; color: string }) {
-  return (
-    <Link href={link} className="card hover:scale-105 transition-smooth">
-      <div className={`w-full h-32 ${color} rounded-lg mb-4 flex items-center justify-center`}>
-        <BookOpen className="w-16 h-16 text-white" />
-      </div>
-      <h3 className="heading-ar text-xl mb-2 text-gray-900">{title}</h3>
-      <p className="body-ar text-gray-600 text-sm">{description}</p>
-    </Link>
   );
 }
