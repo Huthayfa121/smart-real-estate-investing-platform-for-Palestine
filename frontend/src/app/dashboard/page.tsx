@@ -85,26 +85,60 @@ export default function DashboardPage() {
           />
         </div>
 
-        {/* Welcome Message */}
-        <div className="bg-white rounded-xl shadow-md p-8">
-          <div className="text-center">
-            <div className="w-24 h-24 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Building2 className="w-12 h-12 text-primary-600" />
+        {/* Quick Actions */}
+        <div className="grid md:grid-cols-3 gap-6 mb-8">
+          <Link href="/recommendations" className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-shadow">
+            <div className="flex items-center gap-3 mb-3">
+              <TrendingUp className="w-8 h-8 text-primary-600" />
+              <h3 className="heading-ar text-lg text-gray-900">توصياتي</h3>
             </div>
-            <h2 className="heading-ar text-2xl mb-4 text-gray-900">
-              🎉 مبروك! حسابك جاهز
-            </h2>
-            <p className="body-ar text-gray-600 mb-6 max-w-2xl mx-auto">
-              الآن يمكنك البدء باستكشاف الفرص الاستثمارية، التواصل مع المستشارين، وقراءة المحتوى التعليمي.
-              عندما يتم ربط النظام بالخادم (Backend)، ستحصل على توصيات مخصصة بناءً على ملفك الاستثماري.
+            <p className="body-ar text-sm text-gray-600">
+              اكتشف الفرص الاستثمارية المخصصة لك
             </p>
-            <div className="flex gap-4 justify-center">
-              <Link href="/" className="btn btn-primary">
-                العودة للرئيسية
-              </Link>
-              <Link href="/library" className="btn btn-outline">
-                تصفح المكتبة
-              </Link>
+          </Link>
+
+          <Link href="/advisors" className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-shadow">
+            <div className="flex items-center gap-3 mb-3">
+              <User className="w-8 h-8 text-blue-600" />
+              <h3 className="heading-ar text-lg text-gray-900">المستشارون</h3>
+            </div>
+            <p className="body-ar text-sm text-gray-600">
+              تواصل مع خبراء قانونيين وماليين
+            </p>
+          </Link>
+
+          <Link href="/library" className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-shadow">
+            <div className="flex items-center gap-3 mb-3">
+              <Building2 className="w-8 h-8 text-green-600" />
+              <h3 className="heading-ar text-lg text-gray-900">المكتبة</h3>
+            </div>
+            <p className="body-ar text-sm text-gray-600">
+              محتوى تعليمي شامل عن الاستثمار العقاري
+            </p>
+          </Link>
+        </div>
+
+        {/* Welcome Message */}
+        <div className="bg-gradient-to-br from-primary-50 to-primary-100 rounded-xl p-8 mb-8">
+          <div className="flex items-start gap-4">
+            <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center flex-shrink-0">
+              <Building2 className="w-8 h-8 text-white" />
+            </div>
+            <div className="flex-1">
+              <h2 className="heading-ar text-2xl mb-2 text-gray-900">
+                👋 مرحباً بك، {user.name}!
+              </h2>
+              <p className="body-ar text-gray-700 mb-4">
+                ابدأ رحلتك الاستثمارية الآن! أكمل ملفك الاستثماري للحصول على توصيات مخصصة.
+              </p>
+              <div className="flex gap-3">
+                <Link href="/onboarding" className="btn btn-primary">
+                  إكمال الملف الاستثماري
+                </Link>
+                <Link href="/recommendations" className="btn btn-outline">
+                  عرض التوصيات
+                </Link>
+              </div>
             </div>
           </div>
         </div>

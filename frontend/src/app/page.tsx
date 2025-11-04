@@ -1,14 +1,55 @@
 'use client';
 
 import Link from 'next/link';
-import { Building2, MessageSquare, BookOpen, Shield } from 'lucide-react';
+import { Building2, MessageSquare, BookOpen, Shield, LogOut, User } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function HomePage() {
+  const { user, logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+  };
+
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white">
         <div className="container-custom section">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-12">
+            <Link href="/" className="flex items-center gap-2 text-white hover:text-primary-100">
+              <Building2 className="w-10 h-10" />
+              <span className="heading-ar text-2xl font-bold">منصة الاستثمار العقاري</span>
+            </Link>
+            <div className="flex items-center gap-4">
+              {user ? (
+                <>
+                  <Link href="/dashboard" className="flex items-center gap-2 text-white hover:text-primary-100">
+                    <User className="w-5 h-5" />
+                    <span className="body-ar">{user.name}</span>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-2 text-white hover:text-red-300"
+                  >
+                    <LogOut className="w-5 h-5" />
+                    <span className="body-ar hidden sm:inline">تسجيل الخروج</span>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link href="/login" className="body-ar text-white hover:text-primary-100">
+                    تسجيل الدخول
+                  </Link>
+                  <Link href="/signup" className="btn btn-primary bg-white text-primary-700 hover:bg-primary-50">
+                    سجل الآن
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
+
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="heading-ar text-4xl md:text-5xl lg:text-6xl mb-6">
               منصة الاستثمار العقاري الذكية
@@ -17,12 +58,25 @@ export default function HomePage() {
               استثمر بثقة في العقارات الفلسطينية مع توصيات مخصصة ومستشارين معتمدين
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link href="/signup" className="btn btn-primary bg-white text-primary-700 hover:bg-primary-50">
-                ابدأ الآن مجاناً
-              </Link>
-              <Link href="/login" className="btn btn-outline border-white text-white hover:bg-white hover:text-primary-700">
-                تسجيل الدخول
-              </Link>
+              {user ? (
+                <>
+                  <Link href="/dashboard" className="btn btn-primary bg-white text-primary-700 hover:bg-primary-50">
+                    لوحة التحكم
+                  </Link>
+                  <Link href="/library" className="btn btn-outline border-white text-white hover:bg-white hover:text-primary-700">
+                    تصفح المكتبة
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link href="/signup" className="btn btn-primary bg-white text-primary-700 hover:bg-primary-50">
+                    ابدأ الآن مجاناً
+                  </Link>
+                  <Link href="/login" className="btn btn-outline border-white text-white hover:bg-white hover:text-primary-700">
+                    تسجيل الدخول
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

@@ -1,13 +1,15 @@
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { authService } from '../services/auth.service';
 
 interface User {
-  _id: string;
+  id: string;
   name: string;
   email: string;
   role: string;
-  kycStatus?: string;
+  phoneNumber?: string;
+  isEmailVerified?: boolean;
 }
 
 interface AuthContextType {
@@ -23,31 +25,86 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  // Check for existing token and load user on mount
+  useEffect(() => {
+    const initAuth = async () => {
+      const token = localStorage.getItem('accessToken');
+      if (token) {
+        try {
+          await refreshUser();
+        } catch (error) {
+          console.error('Failed to load user:', error);
+          localStorage.removeItem('accessToken');
+        }
+      }
+      setLoading(false);
+    };
+
+    initAuth();
+  }, []);
 
   const login = async (email: string, password: string) => {
-    // TODO: Implement actual API call
-    console.log('Login:', email);
-    // Simulate successful login for demo
-    setUser({ _id: '1', name: 'مستخدم تجريبي', email, role: 'investor', kycStatus: 'verified' });
+    setLoading(true);
+    try {
+      const response = await authService.login(email, password);
+      
+      if (response.success && response.data.user) {
+        setUser(response.data.user);
+      } else {
+        throw new Error('Login failed');
+      }
+    } catch (error: any) {
+      console.error('Login error:', error);
+      throw new Error(error.response?.data?.message || 'Login failed');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const signup = async (data: any) => {
-    // TODO: Implement actual API call
-    console.log('Signup:', data);
-    // Simulate successful signup for demo
-    setUser({ _id: '1', name: data.name, email: data.email, role: data.role || 'investor', kycStatus: 'pending' });
+    setLoading(true);
+    try {
+      const response = await authService.register(data);
+      
+      if (response.success && response.data.user) {
+        setUser(response.data.user);
+      } else {
+        throw new Error('Registration failed');
+      }
+    } catch (error: any) {
+      console.error('Signup error:', error);
+      throw new Error(error.response?.data?.message || 'Registration failed');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const logout = async () => {
-    setUser(null);
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    setLoading(true);
+    try {
+      await authService.logout();
+      setUser(null);
+      // Redirect to home page
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const refreshUser = async () => {
-    // TODO: Implement actual API call
-    console.log('Refresh user');
+    try {
+      const response = await authService.getCurrentUser();
+      if (response.success && response.data.user) {
+        setUser(response.data.user);
+      }
+    } catch (error) {
+      console.error('Failed to refresh user:', error);
+      throw error;
+    }
   };
 
   return (
